@@ -53,6 +53,18 @@ services:
           --jsonArray \
           --file /data/input.json
     restart: "no"
+  adl-api:
+    image: ghcr.io/adl-lex/adl-api:latest
+    container_name: adl-api
+    env_file:
+      - ".env"
+    ports:
+      - "5000:80"
+    networks:
+      - adl-network
+    depends_on:
+      - mongodb
+    restart: unless-stopped
 networks:
   adl-network:
     driver: bridge
