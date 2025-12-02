@@ -23,6 +23,7 @@ services:
       - "27017:27017"
     networks:
       - adl-network
+    restart: unless-stopped
   mongo-import:
     image: ghcr.io/adl-lex/adl-mongodb:latest
     container_name: adl-mongo-import
