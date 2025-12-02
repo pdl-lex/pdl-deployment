@@ -21,14 +21,37 @@ services:
       - ".env"
     ports:
       - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
     networks:
       - adl-network
+  mongo-import:
+    image: ghcr.io/adl-lex/adl-mongodb:latest
+    container_name: adl-mongo-import
+    env_file:
+      - ".env"
+    volumes:
+      - ./data:/data
+    networks:
+      - adl-network
+    depends_on:
+      - mongodb
+    command:
+      - bash
+      - -c
+      - |
+        sleep 10
+        mongoimport \
+          -u $$MONGO_INITDB_ROOT_USERNAME \
+          -p $$MONGO_INITDB_ROOT_PASSWORD \
+          --authenticationDatabase admin \
+          --host mongodb:27017 \
+          --db wb \
+          --collection bwb \
+          --jsonArray \
+          --file /data/input.json
+    restart: "no"
 networks:
   adl-network:
     driver: bridge
 volumes:
   caddy_data:
   caddy_config:
-  mongodb_data:
