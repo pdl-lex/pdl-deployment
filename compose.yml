@@ -38,7 +38,11 @@ services:
       - bash
       - -c
       - |
-        sleep 10
+        until mongosh --host mongodb:27017 --eval "quit(db.runCommand('ping').ok ? 0 : 2)" --quiet; do
+          echo "Waiting for MongoDB..."
+          sleep 2
+        done
+        echo "MongoDB is ready, starting import..."
         mongoimport \
           -u $$MONGO_INITDB_ROOT_USERNAME \
           -p $$MONGO_INITDB_ROOT_PASSWORD \
