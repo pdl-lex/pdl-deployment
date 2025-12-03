@@ -1,4 +1,4 @@
-ba00000-lex.srv.mwn.de {
+ba00000-lex.srv.mwn.de, azlex.de {
     basicauth /* {
         adladmin {$BASIC_AUTH_PASSWORD}
     }
