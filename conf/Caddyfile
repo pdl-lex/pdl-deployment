@@ -3,6 +3,7 @@ ba00000-lex.srv.mwn.de, azlex.de {
         adladmin {$BASIC_AUTH_PASSWORD}
     }
     handle /api/* {
+        uri strip_prefix /api
         reverse_proxy adl-api:80
     }
     reverse_proxy adl-platform:3000
