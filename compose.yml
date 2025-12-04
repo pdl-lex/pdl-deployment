@@ -66,6 +66,19 @@ services:
     depends_on:
       - mongodb
     restart: unless-stopped
+    command:
+      [
+        "uv",
+        "run",
+        "fastapi",
+        "run",
+        "app/main.py",
+        "--proxy-headers",
+        "--port",
+        "80",
+        "--root-path",
+        "/api",
+      ]
   adl-platform:
     image: ghcr.io/adl-lex/adl-platform:latest
     container_name: adl-platform
