@@ -1,6 +1,17 @@
-# ADL Platform Deployment
+# LexoTerm Digital Infrastructure
 
-Docker setup for the LexoTerm German dictionary platform.
+Contains configuration and infrastructure setup for the *LexoTerm* dictionary platform deployment.
+
+The infrastructure is distributed in [Docker][docker] containers managed via `docker compose`. Its
+main components are:
+
+1. A Python [api][api] powered by [FastAPI][fastapi]
+2. A lexicographic [research application][frontend] based on TypeScript/React and [Vite][vite]
+3. One or more databases holding dictionaries and corpora
+4. Importers for converting, validating and storing input data in the databases
+5. [Caddy][caddy] reverse proxy to manage access and SSL
+
+![Infrastructure diagram created with eraser.io](img/infrastructure.svg)
 
 ## Deploying
 
