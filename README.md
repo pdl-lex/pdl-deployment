@@ -29,8 +29,9 @@ To deploy the app after pushing changes to the api and/or the frontend,
 
 1. wait for Github CI/CD to complete
 2. `ssh` into the VM
-3. `cd` into /home/deploy/adl-deployment
-4. `git pull` the latest configuration.
+3. switch to the deploy user with `su - deploy` (enter password)
+4. `cd` into ~/adl-deployment
+5. `git switch main && git pull` to update to the latest configuration.
 
 Then, run the following commands to fetch the new images and update the containers.
 
