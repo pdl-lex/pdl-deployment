@@ -105,7 +105,7 @@ services:
       - /mnt/data/wb/data:/var/lib/postgresql/data     
       - /mnt/data/wb/import:/import   
     networks:
-      - wb_network
+      - adl-network
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -117,7 +117,7 @@ services:
     ports:
       - "5050:80"
     networks:
-      - wb_network
+      - adl-network
 
 networks:
   adl-network:
