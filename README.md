@@ -13,6 +13,27 @@ main components are:
 
 ![Infrastructure diagram created with eraser.io](img/infrastructure.svg)
 
+## Environment Variables
+
+The following environment variables must be set:
+
+```sh
+MONGO_INITDB_ROOT_USERNAME
+MONGO_INITDB_ROOT_PASSWORD
+MONGODB_URI
+
+POSTGRES_USER
+POSTGRES_PASSWORD
+POSTGRES_DB
+
+PGADMIN_DEFAULT_EMAIL
+PGADMIN_DEFAULT_PASSWORD
+
+VITE_VM_URL
+
+BASIC_AUTH_PASSWORD
+```
+
 ## Deploying
 
 To deploy the app after pushing changes to the api and/or the frontend,
