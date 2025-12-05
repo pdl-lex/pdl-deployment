@@ -102,8 +102,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /mnt/data/wb/data:/var/lib/postgresql/data     
-      - /mnt/data/wb/import:/import   
+      - /mnt/data/wb/data:/var/lib/postgresql/data
+      - /mnt/data/wb/import:/import
     networks:
       - adl-network
   pgadmin:
