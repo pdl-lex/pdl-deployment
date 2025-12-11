@@ -117,6 +117,20 @@ services:
       SCRIPT_NAME: /pgadmin
     networks:
       - adl-network
+  postgres-import:
+    build:
+      context: ./postgres-import
+      dockerfile: Dockerfile
+    container_name: wb_postgres_import
+    env_file:
+      - ".env"
+    volumes:
+      - /mnt/data/wb/import:/import
+    networks:
+      - adl-network
+    depends_on:
+      - postgres
+    restart: "no"
 networks:
   adl-network:
     driver: bridge
