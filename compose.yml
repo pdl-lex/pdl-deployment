@@ -107,6 +107,18 @@ services:
       - /mnt/data/wb/import:/import
     networks:
       - adl-network
+  postgres-import:
+    image: ghcr.io/pdl-lex/pdl-import-postgres:latest
+    container_name: pdl_postgres_import
+    env_file:
+      - ".env"
+    volumes:
+      - /mnt/data/wb/import:/import
+    networks:
+      - adl-network
+    depends_on:
+      - postgres
+    restart: "no"
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: wb_pgadmin
