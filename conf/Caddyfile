@@ -1,4 +1,4 @@
-ba00000-lex.srv.mwn.de, azlex.de {
+ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
     handle /static/* {
         uri strip_prefix /static
         root * /wb/static
