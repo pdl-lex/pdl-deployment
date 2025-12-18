@@ -25,36 +25,6 @@ services:
     networks:
       - adl-network
     restart: unless-stopped
-  mongo-import:
-    image: ghcr.io/adl-lex/adl-mongodb:latest
-    container_name: adl-mongo-import
-    env_file:
-      - ".env"
-    volumes:
-      - ./data:/data
-    networks:
-      - adl-network
-    depends_on:
-      - mongodb
-    command:
-      - bash
-      - -c
-      - |
-        until mongosh --host mongodb:27017 --eval "quit(db.runCommand('ping').ok ? 0 : 2)" --quiet; do
-          echo "Waiting for MongoDB..."
-          sleep 2
-        done
-        echo "MongoDB is ready, starting import..."
-        mongoimport \
-          -u $$MONGO_INITDB_ROOT_USERNAME \
-          -p $$MONGO_INITDB_ROOT_PASSWORD \
-          --authenticationDatabase admin \
-          --host mongodb:27017 \
-          --db wb \
-          --collection bwb \
-          --jsonArray \
-          --file /data/input.json
-    restart: "no"
   adl-api:
     image: ghcr.io/adl-lex/adl-api:latest
     container_name: adl-api
