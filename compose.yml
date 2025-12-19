@@ -16,7 +16,7 @@ services:
     networks:
       - adl-network
   mongodb:
-    image: ghcr.io/adl-lex/adl-mongodb:latest
+    image: ghcr.io/pdl-lex/pdl-mongodb:latest
     container_name: adl-mongodb
     env_file:
       - ".env"
@@ -26,7 +26,7 @@ services:
       - adl-network
     restart: unless-stopped
   adl-api:
-    image: ghcr.io/adl-lex/adl-api:latest
+    image: ghcr.io/pdl-lex/pdl-api:latest
     container_name: adl-api
     env_file:
       - ".env"
@@ -51,7 +51,7 @@ services:
         "/api",
       ]
   adl-platform:
-    image: ghcr.io/adl-lex/adl-platform:latest
+    image: ghcr.io/pdl-lex/pdl-platform:latest
     container_name: adl-platform
     env_file:
       - ".env"
