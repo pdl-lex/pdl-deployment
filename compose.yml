@@ -84,6 +84,21 @@ services:
         "80",
         "--proxy-headers",
       ]
+  postgres:
+    image: postgres:18-alpine
+    container_name: pdl-db-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - /mnt/data/wb/data:/var/lib/postgresql/data
+      - /mnt/data/wb/import:/import
+    networks:
+      - adl-network
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: wb_pgadmin
