@@ -8,6 +8,10 @@ ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
         uri strip_prefix /api
         reverse_proxy adl-api:80
     }
+    handle /api2/* {
+        uri strip_prefix /api2
+        reverse_proxy pdl-api-postgres:80
+    }
     handle /pgadmin {
         reverse_proxy wb_pgadmin:80
     }

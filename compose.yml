@@ -62,21 +62,28 @@ services:
     depends_on:
       - adl-api
     restart: unless-stopped
-  postgres:
-    image: postgres:18-alpine
-    container_name: wb_postgres
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+  pdl-api-postgres:
+    build: ./postgres-api
+    container_name: pdl-api-postgres
+    env_file:
+      - ".env"
     ports:
-      - "5432:5432"
-    volumes:
-      - /mnt/data/wb/data:/var/lib/postgresql/data
-      - /mnt/data/wb/import:/import
+      - "8001:80"
     networks:
       - adl-network
+    restart: unless-stopped
+    command:
+      [
+        "uv",
+        "run",
+        "uvicorn",
+        "main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "80",
+        "--proxy-headers",
+      ]
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: wb_pgadmin
