@@ -1,12 +1,14 @@
+api.lexoterm.de {
+    handle /* {
+        reverse_proxy adl-api:80
+    }
+}
+
 ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
     handle /static/* {
         uri strip_prefix /static
         root * /wb/static
         file_server browse
-    }
-    handle /api/* {
-        uri strip_prefix /api
-        reverse_proxy adl-api:80
     }
     handle /api2/* {
         uri strip_prefix /api2

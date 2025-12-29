@@ -47,8 +47,6 @@ services:
         "--proxy-headers",
         "--port",
         "80",
-        "--root-path",
-        "/api",
       ]
   adl-platform:
     image: ghcr.io/pdl-lex/pdl-platform:latest
