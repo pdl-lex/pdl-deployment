@@ -29,9 +29,9 @@ ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
 }
 
 wh.dev.lexoterm.de {
-    reverse_proxy 172.17.0.1:8080
+    reverse_proxy host.docker.internal:8080
 }
 
 fs.dev.lexoterm.de {
-    reverse_proxy 172.17.0.1:8081
+    reverse_proxy host.docker.internal:8081
 }
