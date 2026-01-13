@@ -24,6 +24,8 @@ services:
       - ".env"
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
     networks:
       - adl-network
     restart: unless-stopped
@@ -115,3 +117,4 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
+  mongodb_data:
