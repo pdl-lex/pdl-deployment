@@ -18,24 +18,23 @@ services:
     networks:
       - adl-network
   mongodb:
-    image: ghcr.io/pdl-lex/pdl-mongodb:latest
+    image: mongo:8
     container_name: adl-mongodb
     env_file:
       - ".env"
-    ports:
-      - "27017:27017"
     volumes:
       - mongodb_data:/data/db
     networks:
       - adl-network
     restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
   adl-api:
     image: ghcr.io/pdl-lex/pdl-api:latest
     container_name: adl-api
     env_file:
       - ".env"
-    ports:
-      - "5000:80"
     networks:
       - adl-network
     depends_on:
@@ -57,8 +56,6 @@ services:
     container_name: adl-platform
     env_file:
       - ".env"
-    ports:
-      - "3000:3000"
     networks:
       - adl-network
     depends_on:
@@ -69,8 +66,6 @@ services:
     container_name: pdl-api-postgres
     env_file:
       - ".env"
-    ports:
-      - "8001:80"
     networks:
       - adl-network
     restart: unless-stopped
@@ -94,8 +89,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
     volumes:
       - /mnt/data/wb/data:/var/lib/postgresql/data
       - /mnt/data/wb/import:/import
