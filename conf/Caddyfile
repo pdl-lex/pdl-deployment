@@ -51,3 +51,7 @@ stopandgraph.tools.lexoterm.de {
 dictgraph.tools.lexoterm.de {
     reverse_proxy host.docker.internal:8085
 }
+
+cms.lexoterm.de {
+    reverse_proxy pdl-cms:3000
+}
