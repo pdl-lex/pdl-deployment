@@ -55,3 +55,7 @@ dictgraph.tools.lexoterm.de {
 cms.lexoterm.de {
     reverse_proxy pdl-cms:3000
 }
+
+smor.lexoterm.de {
+    reverse_proxy pdl-smor-api:8000
+}
