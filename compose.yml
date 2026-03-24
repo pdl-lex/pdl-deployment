@@ -117,6 +117,12 @@ services:
         - payload-media:/app/media
       networks:
         - adl-network
+  pdl-smor-api:
+    image: ghcr.io/pdl-lex/smor-api:latest
+    container_name: pdl-smor-api
+    networks:
+      - adl-network
+    restart: unless-stopped
 networks:
   adl-network:
     driver: bridge
