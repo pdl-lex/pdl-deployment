@@ -104,19 +104,19 @@ services:
       SCRIPT_NAME: /pgadmin
     networks:
       - adl-network
-    pdl-cms:
-      image: ghcr.io/pdl-lex/pdl-cms:latest
-      container_name: pdl-cms
-      depends_on:
-        - mongodb
-      environment:
-        - PAYLOAD_SECRET=${PAYLOAD_SECRET}
-        - DATABASE_URL=${MONGODB_URI}
-      restart: unless-stopped
-      volumes:
-        - payload-media:/app/media
-      networks:
-        - adl-network
+  pdl-cms:
+    image: ghcr.io/pdl-lex/pdl-cms:latest
+    container_name: pdl-cms
+    depends_on:
+      - mongodb
+    environment:
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET}
+      - DATABASE_URL=${MONGODB_URI}
+    restart: unless-stopped
+    volumes:
+      - payload-media:/app/media
+    networks:
+      - adl-network
   pdl-smor-api:
     image: ghcr.io/pdl-lex/smor-api:latest
     container_name: pdl-smor-api
