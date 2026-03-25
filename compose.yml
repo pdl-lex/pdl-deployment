@@ -112,6 +112,7 @@ services:
     environment:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - DATABASE_URL=${MONGODB_URI}
+      - ALLOWED_ORIGIN=${CMS_ALLOWED_ORIGIN}
     restart: unless-stopped
     volumes:
       - payload-media:/app/media
