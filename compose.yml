@@ -121,6 +121,8 @@ services:
   pdl-smor-api:
     image: ghcr.io/pdl-lex/smor-api:latest
     container_name: pdl-smor-api
+    environment:
+      - SMOR_DEMO_URL=${SMOR_DEMO_URL}
     networks:
       - adl-network
     restart: unless-stopped
