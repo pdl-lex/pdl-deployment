@@ -61,5 +61,5 @@ smor.lexoterm.de {
 }
 
 wbfdemo.lexoterm.de {
-    reverse_proxy wbf-nlp-demo:8000
+    reverse_proxy wbf-nlp-demo:3000
 }
