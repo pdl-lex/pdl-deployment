@@ -59,3 +59,7 @@ cms.lexoterm.de {
 smor.lexoterm.de {
     reverse_proxy pdl-smor-api:8000
 }
+
+wbfdemo.lexoterm.de {
+    reverse_proxy wbf-nlp-demo:8000
+}

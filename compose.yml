@@ -124,6 +124,12 @@ services:
     networks:
       - adl-network
     restart: unless-stopped
+  pdl-wbf-nlp-demo:
+    image: ghcr.io/pdl-lex/wbf-nlp-demo:latest
+    container_name: wbf-nlp-demo
+    networks:
+      - adl-network
+    restart: unless-stopped
 networks:
   adl-network:
     driver: bridge
