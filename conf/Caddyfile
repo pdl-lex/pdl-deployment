@@ -4,6 +4,10 @@ api.lexoterm.de {
     }
 }
 
+www.lexoterm.de {
+    redir https://lexoterm.de{uri} permanent
+}
+
 ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
     handle /static/* {
         uri strip_prefix /static
