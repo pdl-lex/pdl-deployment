@@ -1,7 +1,7 @@
 services:
   caddy:
     image: caddy:latest
-    container_name: adl-caddy
+    container_name: pdl-caddy
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -16,27 +16,27 @@ services:
       - caddy_config:/config
       - /wb/static:/wb/static:ro
     networks:
-      - adl-network
+      - pdl-network
   mongodb:
     image: mongo:8
-    container_name: adl-mongodb
+    container_name: pdl-mongodb
     env_file:
       - ".env"
     volumes:
       - mongodb_data:/data/db
     networks:
-      - adl-network
+      - pdl-network
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-  adl-api:
+  pdl-api:
     image: ghcr.io/pdl-lex/pdl-api:latest
-    container_name: adl-api
+    container_name: pdl-api
     env_file:
       - ".env"
     networks:
-      - adl-network
+      - pdl-network
     depends_on:
       - mongodb
     restart: unless-stopped
@@ -51,15 +51,15 @@ services:
         "--port",
         "80",
       ]
-  adl-platform:
+  pdl-platform:
     image: ghcr.io/pdl-lex/pdl-platform:latest
-    container_name: adl-platform
+    container_name: pdl-platform
     env_file:
       - ".env"
     networks:
-      - adl-network
+      - pdl-network
     depends_on:
-      - adl-api
+      - pdl-api
     restart: unless-stopped
   pdl-cms:
     image: ghcr.io/pdl-lex/pdl-cms:latest
@@ -74,23 +74,23 @@ services:
     volumes:
       - payload-media:/app/media
     networks:
-      - adl-network
+      - pdl-network
   pdl-smor-api:
     image: ghcr.io/pdl-lex/smor-api:latest
     container_name: pdl-smor-api
     environment:
       - SMOR_DEMO_URL=${SMOR_DEMO_URL}
     networks:
-      - adl-network
+      - pdl-network
     restart: unless-stopped
   pdl-wbf-nlp-demo:
     image: ghcr.io/pdl-lex/wbf-nlp-demo:latest
     container_name: wbf-nlp-demo
     networks:
-      - adl-network
+      - pdl-network
     restart: unless-stopped
 networks:
-  adl-network:
+  pdl-network:
     driver: bridge
 volumes:
   caddy_data:

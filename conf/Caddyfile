@@ -1,6 +1,6 @@
 api.lexoterm.de {
     handle /* {
-        reverse_proxy adl-api:80
+        reverse_proxy pdl-api:80
     }
 }
 
@@ -28,7 +28,7 @@ ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
         basic_auth {
             adladmin {$BASIC_AUTH_PASSWORD}
         }
-        reverse_proxy adl-platform:3000
+        reverse_proxy pdl-platform:3000
     }
 }
 
