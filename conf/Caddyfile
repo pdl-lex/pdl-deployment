@@ -56,6 +56,10 @@ dictgraph.tools.lexoterm.de {
     reverse_proxy host.docker.internal:8085
 }
 
+lexfcs.lexoterm.de {
+    reverse_proxy pdl-lexfcs:8080
+}
+
 cms.lexoterm.de {
     reverse_proxy pdl-cms:3000
 }
