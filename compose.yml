@@ -10,6 +10,13 @@ services:
       - "443:443"
     env_file:
       - ".env"
+    resources:
+      limits:
+        cpus: "0.5"
+        memory: "256M"
+      reservations:
+        cpus: "0.5"
+        memory: "256M"
     volumes:
       - ./conf:/etc/caddy
       - caddy_data:/data
@@ -30,6 +37,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    resources:
+      limits:
+        cpus: "1.5"
+        memory: "2.5G"
+      reservations:
+        cpus: "1.5"
+        memory: "2.5G"
   pdl-api:
     image: ghcr.io/pdl-lex/pdl-api:latest
     container_name: pdl-api
@@ -51,6 +65,13 @@ services:
         "--port",
         "80",
       ]
+    resources:
+      limits:
+        cpus: "2"
+        memory: "2.5G"
+      reservations:
+        cpus: "2"
+        memory: "2.5G"
   pdl-platform:
     image: ghcr.io/pdl-lex/pdl-platform:latest
     container_name: pdl-platform
@@ -61,6 +82,13 @@ services:
     depends_on:
       - pdl-api
     restart: unless-stopped
+    resources:
+      limits:
+        cpus: "0.5"
+        memory: "1G"
+      reservations:
+        cpus: "0.5"
+        memory: "1G"
   pdl-cms:
     image: ghcr.io/pdl-lex/pdl-cms:latest
     container_name: pdl-cms
@@ -75,6 +103,13 @@ services:
       - payload-media:/app/media
     networks:
       - pdl-network
+    resources:
+      limits:
+        cpus: "0.5"
+        memory: "512M"
+      reservations:
+        cpus: "0.5"
+        memory: "512M"
   pdl-smor-api:
     image: ghcr.io/pdl-lex/smor-api:latest
     container_name: pdl-smor-api
@@ -83,12 +118,26 @@ services:
     networks:
       - pdl-network
     restart: unless-stopped
+    resources:
+      limits:
+        cpus: "0.25"
+        memory: "512M"
+      reservations:
+        cpus: "0.25"
+        memory: "512M"
   pdl-wbf-nlp-demo:
     image: ghcr.io/pdl-lex/wbf-nlp-demo:latest
     container_name: wbf-nlp-demo
     networks:
       - pdl-network
     restart: unless-stopped
+    resources:
+      limits:
+        cpus: "0.25"
+        memory: "512M"
+      reservations:
+        cpus: "0.25"
+        memory: "512M"
 networks:
   pdl-network:
     driver: bridge
