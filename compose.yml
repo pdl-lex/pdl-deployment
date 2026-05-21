@@ -46,6 +46,33 @@ services:
         reservations:
           cpus: "1.5"
           memory: "2.5G"
+  postgres:
+    image: postgres:17
+    container_name: pdl-postgres
+    env_file:
+      - ".env"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pdl-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "1G"
+        reservations:
+          cpus: "0.5"
+          memory: "1G"
   pdl-api:
     image: ghcr.io/pdl-lex/pdl-api:latest
     container_name: pdl-api
@@ -153,3 +180,5 @@ volumes:
   caddy_config:
   mongodb_data:
   payload-media:
+  postgres_data:
+  
