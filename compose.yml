@@ -161,10 +161,10 @@ services:
       resources:
         limits:
           cpus: "0.25"
-          memory: "1G"
+          memory: "2G"
         reservations:
           cpus: "0.25"
-          memory: "1G"
+          memory: "512M"
   pdl-wbf-nlp-demo:
     image: ghcr.io/pdl-lex/wbf-nlp-demo:latest
     container_name: wbf-nlp-demo
