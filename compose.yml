@@ -25,6 +25,7 @@ services:
       - /wb/static:/wb/static:ro
     networks:
       - pdl-network
+      - lexoterm-network
   mongodb:
     image: mongo:8
     container_name: pdl-mongodb
@@ -34,6 +35,7 @@ services:
       - mongodb_data:/data/db
     networks:
       - pdl-network
+      - lexoterm-network
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
@@ -59,6 +61,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - pdl-network
+      - lexoterm-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -80,6 +83,7 @@ services:
       - ".env"
     networks:
       - pdl-network
+      - lexoterm-network
     depends_on:
       - mongodb
     restart: unless-stopped
@@ -109,6 +113,7 @@ services:
       - ".env"
     networks:
       - pdl-network
+      - lexoterm-network
     depends_on:
       - pdl-api
     restart: unless-stopped
@@ -134,6 +139,7 @@ services:
       - payload-media:/app/media
     networks:
       - pdl-network
+      - lexoterm-network
     deploy:
       resources:
         limits:
@@ -149,6 +155,7 @@ services:
       - SMOR_DEMO_URL=${SMOR_DEMO_URL}
     networks:
       - pdl-network
+      - lexoterm-network
     restart: unless-stopped
     deploy:
       resources:
@@ -163,6 +170,7 @@ services:
     container_name: wbf-nlp-demo
     networks:
       - pdl-network
+      - lexoterm-network
     restart: unless-stopped
     deploy:
       resources:
@@ -175,6 +183,8 @@ services:
 networks:
   pdl-network:
     driver: bridge
+  lexoterm-network:
+    external: true
 volumes:
   caddy_data:
   caddy_config:
