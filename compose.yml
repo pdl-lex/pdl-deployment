@@ -103,7 +103,17 @@ services:
       - traefik.http.routers.pdl-platform.rule=Host(`ba00000-lex.srv.mwn.de`,`azlex.de`,`lexoterm.de`)
       - traefik.http.routers.pdl-platform.entrypoints=websecure
       - traefik.http.routers.pdl-platform.tls=true
+      - traefik.http.routers.pdl-platform.middlewares=pdl-platform-auth
+      - traefik.http.middlewares.pdl-platform-auth.basicauth.users=adladmin:${BASIC_AUTH_PASSWORD}
       - traefik.http.services.pdl-platform.loadbalancer.server.port=3000
+      - traefik.http.routers.lexoterm-www.rule=Host(`www.lexoterm.de`)
+      - traefik.http.routers.lexoterm-www.entrypoints=websecure
+      - traefik.http.routers.lexoterm-www.tls=true
+      - traefik.http.routers.lexoterm-www.middlewares=lexoterm-www-redirect
+      - traefik.http.routers.lexoterm-www.service=noop@internal
+      - traefik.http.middlewares.lexoterm-www-redirect.redirectregex.regex=^https?://www\.lexoterm\.de/?(.*)
+      - traefik.http.middlewares.lexoterm-www-redirect.redirectregex.replacement=https://lexoterm.de/$${1}
+      - traefik.http.middlewares.lexoterm-www-redirect.redirectregex.permanent=true
     deploy:
       resources:
         limits:
