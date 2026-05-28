@@ -87,6 +87,13 @@ services:
     depends_on:
       - mongodb
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=lexoterm-network
+      - traefik.http.routers.pdl-api.rule=Host(`api.lexoterm.de`)
+      - traefik.http.routers.pdl-api.entrypoints=websecure
+      - traefik.http.routers.pdl-api.tls=true
+      - traefik.http.services.pdl-api.loadbalancer.server.port=80
     command:
       [
         "uv",
@@ -117,6 +124,13 @@ services:
     depends_on:
       - pdl-api
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=lexoterm-network
+      - traefik.http.routers.pdl-platform.rule=Host(`ba00000-lex.srv.mwn.de`,`azlex.de`,`lexoterm.de`)
+      - traefik.http.routers.pdl-platform.entrypoints=websecure
+      - traefik.http.routers.pdl-platform.tls=true
+      - traefik.http.services.pdl-platform.loadbalancer.server.port=3000
     deploy:
       resources:
         limits:
@@ -140,6 +154,13 @@ services:
     networks:
       - pdl-network
       - lexoterm-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=lexoterm-network
+      - traefik.http.routers.pdl-cms.rule=Host(`cms.lexoterm.de`)
+      - traefik.http.routers.pdl-cms.entrypoints=websecure
+      - traefik.http.routers.pdl-cms.tls=true
+      - traefik.http.services.pdl-cms.loadbalancer.server.port=3000
     deploy:
       resources:
         limits:
@@ -157,6 +178,13 @@ services:
       - pdl-network
       - lexoterm-network
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=lexoterm-network
+      - traefik.http.routers.pdl-smor-api.rule=Host(`smor.lexoterm.de`)
+      - traefik.http.routers.pdl-smor-api.entrypoints=websecure
+      - traefik.http.routers.pdl-smor-api.tls=true
+      - traefik.http.services.pdl-smor-api.loadbalancer.server.port=8000
     deploy:
       resources:
         limits:
@@ -172,6 +200,13 @@ services:
       - pdl-network
       - lexoterm-network
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=lexoterm-network
+      - traefik.http.routers.wbf-nlp-demo.rule=Host(`wbfdemo.lexoterm.de`)
+      - traefik.http.routers.wbf-nlp-demo.entrypoints=websecure
+      - traefik.http.routers.wbf-nlp-demo.tls=true
+      - traefik.http.services.wbf-nlp-demo.loadbalancer.server.port=3000
     deploy:
       resources:
         limits:
