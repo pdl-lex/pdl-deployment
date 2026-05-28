@@ -14,16 +14,6 @@ ba00000-lex.srv.mwn.de, azlex.de, lexoterm.de {
         root * /wb/static
         file_server browse
     }
-    handle /api2/* {
-        uri strip_prefix /api2
-        reverse_proxy pdl-api-postgres:80
-    }
-    handle /pgadmin {
-        reverse_proxy wb_pgadmin:80
-    }
-    handle /pgadmin/* {
-        reverse_proxy wb_pgadmin:80
-    }
     handle /* {
         basic_auth {
             adladmin {$BASIC_AUTH_PASSWORD}
