@@ -21,34 +21,25 @@ services:
         reservations:
           cpus: "1.5"
           memory: "2.5G"
-  postgres:
-    image: postgres:17
-    container_name: pdl-postgres
-    env_file:
-      - ".env"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - pdl-network
-      - lexoterm-network
+  lexoterm-static:
+    image: nginx:1.27-alpine
+    container_name: lexoterm-static
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "1G"
-        reservations:
-          cpus: "0.5"
-          memory: "1G"
+    volumes:
+      - /wb/static:/usr/share/nginx/html:ro
+      - ./conf/nginx-static.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - lexoterm-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=lexoterm-network
+      - traefik.http.routers.lexoterm-static.rule=Host(`ba00000-lex.srv.mwn.de`,`azlex.de`,`lexoterm.de`) && PathPrefix(`/static`)
+      - traefik.http.routers.lexoterm-static.entrypoints=websecure
+      - traefik.http.routers.lexoterm-static.tls=true
+      - traefik.http.routers.lexoterm-static.priority=100
+      - traefik.http.routers.lexoterm-static.middlewares=lexoterm-static-strip
+      - traefik.http.middlewares.lexoterm-static-strip.stripprefix.prefixes=/static
+      - traefik.http.services.lexoterm-static.loadbalancer.server.port=80
   pdl-api:
     image: ghcr.io/pdl-lex/pdl-api:latest
     container_name: pdl-api
@@ -206,5 +197,4 @@ networks:
 volumes:
   mongodb_data:
   payload-media:
-  postgres_data:
   
