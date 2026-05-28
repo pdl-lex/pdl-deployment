@@ -1,31 +1,4 @@
 services:
-  caddy:
-    image: caddy:latest
-    container_name: pdl-caddy
-    restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    ports:
-      - "80:80"
-      - "443:443"
-    env_file:
-      - ".env"
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "256M"
-        reservations:
-          cpus: "0.5"
-          memory: "256M"
-    volumes:
-      - ./conf:/etc/caddy
-      - caddy_data:/data
-      - caddy_config:/config
-      - /wb/static:/wb/static:ro
-    networks:
-      - pdl-network
-      - lexoterm-network
   mongodb:
     image: mongo:8
     container_name: pdl-mongodb
@@ -221,8 +194,6 @@ networks:
   lexoterm-network:
     external: true
 volumes:
-  caddy_data:
-  caddy_config:
   mongodb_data:
   payload-media:
   postgres_data:
