@@ -1,54 +1,72 @@
 # LexoTerm Digital Infrastructure
 
-Contains configuration and infrastructure setup for the *LexoTerm* dictionary platform deployment.
+Contains configuration and infrastructure setup for [LexoTerm](https://lexoterm.de/) and other
+lexicographic tools developed as part of
+[Neue Potenziale für die digitale Lexikographie des Deutschen](https://pdl.badw.de/).
 
-The infrastructure is distributed in [Docker][docker] containers managed via `docker compose`. Its
-main components are:
+The infrastructure is distributed in [Docker][docker] containers managed via
+[Dokploy](https://dokploy.com/). Its main components are:
 
 1. A Python [api][api] powered by [FastAPI][fastapi]
 2. A lexicographic [research application][frontend] based on TypeScript/React and [Vite][vite]
 3. One or more databases holding dictionaries and corpora
 4. Importers for converting, validating and storing input data in the databases
-5. [Caddy][caddy] reverse proxy to manage access and SSL
 
-![Infrastructure diagram created with eraser.io](img/infrastructure.svg)
+## Setup
 
-## Environment Variables
+1. Set up the server according to the [LRZ docs][lrz-docs] (set up users, ssh keys, etc.)
+2. Install [Docker][docker]. If you set up a dedicated data partition as per LRZ recommendations,
+   make sure to set `data-root` in /etc/docker/daemon.json to the correct location (something like
+   /mnt/data/docker). Note that already existing images are not automatically moved to the new
+   directory – if you plan to migrate them to the new location, see, e.g., [this post][so-docker] on Stackoverflow.
+3. Install [Dokploy](https://dokploy.com/). In the UI, remember to move to the web server settings,
+   add a custom domain (like `manage.your-domain.de` – cf. [DNS Management](#dns-management)).
 
-Create a .env file with the variables listed in [.env.example](.env.example).
+## DNS Management
 
-## Deploying
+To make services available online, you may want to purchase a custom domain and add subdomains like
+`api.your-domain.de`. Although you can also use paths like `your-domain.de/api`, many tools expect
+to live at the root and may break things when put into a subpath, so subdomains is generally more
+hassle-free.
 
-To deploy the app after pushing changes to the api and/or the frontend,
+Custom domains can be purchased by LRZ. They can also set up subdomains or give you access to the
+DNS management NameSurfer so you can do it yourself (see the [LRZ docs on DNS management][lrz-dns]).
 
-1. wait for Github CI/CD to complete
-2. `ssh` into the VM
-3. switch to the deploy user with `su - deploy` (enter password)
-4. `cd` into ~/pdl-deployment
-5. `git switch main && git pull` to update to the latest configuration.
+To add a subdomain in webdns.lrz.de, select your domain in the DNS tab and click *Add CNAME*
+in the left sidebar. Put the desired prefix as name (e.g., `api` for `api.lexoterm.de`) and enter
+the VM's URL as CNAME alias. Confirm with ok. (It may take a few minutes for the domain to become
+active.)
 
-Then, run the following commands to fetch the new images and update the containers.
+## Adding Services
 
-```sh
-docker compose pull
-docker compose up -d
-```
+Before you can add services, create a new project in the Dokploy GUI if you haven't done so yet.
 
-## Misc
+There are different options to add services in the Dokploy UI, depending on what kind of service
+you'd like to set up. The preferred way seems to be adding services as applications (options 1 and
+2 below) because that gives you the most features. In general, however, the procedure is mostly the
+same: Create a new service, set up environment variables and the domain, and deploy.
 
-The Caddy config can be modified and reloaded without restarting the service. From within the
-repo folder /home/deploy/pdl-deployment, you may edit conf/Caddyfile and execute the following
-command to apply it:
+### 1. Adding Published Images
 
-```sh
-docker compose exec -w /etc/caddy caddy caddy reload
-```
+Many of our services are pushed to GitHub Container Registry (GHCR) via CI/CD. Although Dokploy can
+also build images (see below), pulling built images from GHCR is preferred because building can put
+significant load on the server.
 
-Remember to update this repo whenever you modify the setup by committing and pushing your changes.
+TODO
+
+### 2. GitHub Repositories containing a Dockerfile
+
+TODO
+
+### 3. Raw Compose
+
+TODO
 
 [docker]: https://www.docker.com/
 [api]: https://github.com/pdl-lex/pdl-api
 [fastapi]: https://fastapi.tiangolo.com/
 [frontend]: https://github.com/pdl-lex/pdl-platform
 [vite]: https://vite.dev/
-[caddy]: https://caddyserver.com/
+[lrz-docs]: https://doku.lrz.de/faqs-zu-virtuellen-maschinen-am-lrz-10745762.html
+[so-docker]: https://stackoverflow.com/questions/59345566/move-docker-volume-to-different-partition
+[lrz-dns]: https://doku.lrz.de/dns-service-10333170.html#DNSService-Webdns-EinträgeinLRZ-NameserverüberWebinterface
