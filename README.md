@@ -18,7 +18,8 @@ The infrastructure is distributed in [Docker][docker] containers managed via
 2. Install [Docker][docker]. If you set up a dedicated data partition as per LRZ recommendations,
    make sure to set `data-root` in /etc/docker/daemon.json to the correct location (something like
    /mnt/data/docker). Note that already existing images are not automatically moved to the new
-   directory – if you plan to migrate them to the new location, see, e.g., [this post][so-docker] on Stackoverflow.
+   directory – if you plan to migrate them to the new location, see, e.g., [this post][so-docker]
+   on Stackoverflow.
 3. Install [Dokploy](https://dokploy.com/). In the UI, remember to move to the web server settings,
    add a custom domain (like `manage.your-domain.de` – cf. [DNS Management](#dns-management)).
 
