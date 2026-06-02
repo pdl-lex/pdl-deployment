@@ -79,17 +79,37 @@ Since you need credentials but don't want to use your actual password here, you 
 6. Back in the *General* tab, click *Deploy*. Wait for the build to finish and the certificate to
    be rolled out (this may take a moment).
 
-If the build fails, check the build log for errors. If the build goes through but the app doesn't
-work, check the container logs for errors: In Dokploy, navigate to the Docker tab, find your
-service, click on the three dots and view logs.
+If the build fails, check the build log in the *Deployment* tab for errors. If the build goes
+through but the app doesn't work, check the container logs for errors: In Dokploy, navigate to the
+Docker tab, find your service, click on the three dots and view logs.
 
 ### 2. GitHub Repositories containing a Dockerfile
 
-TODO
+Instead of pulling pre-built images, Dokploy can also build Docker images from dockerfiles. Since
+this means that the server takes the hit of building the image (which can be significant depending
+on the service), this option is dispreferred.
+
+The overall procedure is very similar to adding published images. For example, to build a Dockerfile
+from a GitHub repository that's within our pdl-lex organization:
+
+1. Create a new application service
+2. Select GitHub as your provider, LexoTerm-Dokploy as account and the target repository. Click
+   save.
+3. Pick Dockerfile for the build type. You may set a path if the file is not in the standard
+   location. Click save.
+
+The rest is identical to the published image workflow above: Set environment variables, a domain
+and volumes as needed and deploy.
 
 ### 3. Raw Compose
 
-TODO
+To migrate services from a docker compose file or for quick testing, Dokploy allows us to build
+services by pasting a configuration into the UI. To do so, create a new service and select *Compose*
+as type. You can paste your docker compose config starting with `services:`, set environment
+variables etc. and deploy. Compose-type services come with a number of trade-offs; they lack some
+options available to regular applications, e.g., there is no easy way to set basic authentication or
+www-redirection, and pasting configuration into a web GUI is notoriously error-prone (no proper
+editor, no version control). Therefore, this should not be used for anything of importance.
 
 [docker]: https://www.docker.com/
 [api]: https://github.com/pdl-lex/pdl-api
