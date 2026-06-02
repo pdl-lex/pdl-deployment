@@ -71,12 +71,16 @@ Since you need credentials but don't want to use your actual password here, you 
    `my-service.lexoterm.de` (cf. [DNS Management](#dns-management)). Configure the container port
    according to your application (mostly 3000 or 80 – check the Dockerfile in the source repo of the
    service). Enable HTTPS and select Let's Encrypt as certificate provider.
-5. Back in the *General* tab, click *Deploy*. Wait for the service to build and the certificate to
-   be rolled out (this may take a minute or so).
+5. If you need volumes, you can add them in the *Advanced* tab. **Important:** If you need to add
+   an existing volume, select volume mount and be sure to use the exact name of the volume – it may
+   contain a prefix if it was added via Docker compose. To find your volume, ssh into the server and
+   run `docker volume ls`.
+6. Back in the *General* tab, click *Deploy*. Wait for the build to finish and the certificate to
+   be rolled out (this may take a moment).
 
-If the build fails, check the build log for errors. If the build works but the app doesn't work,
-check the container logs: In Dokploy, navigate to the Docker tab, find your service, click on the
-three dots and view logs.
+If the build fails, check the build log for errors. If the build goes through but the app doesn't
+work, check the container logs for errors: In Dokploy, navigate to the Docker tab, find your
+service, click on the three dots and view logs.
 
 ### 2. GitHub Repositories containing a Dockerfile
 
