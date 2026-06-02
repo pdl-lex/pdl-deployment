@@ -47,13 +47,36 @@ you'd like to set up. The preferred way seems to be adding services as applicati
 2 below) because that gives you the most features. In general, however, the procedure is mostly the
 same: Create a new service, set up environment variables and the domain, and deploy.
 
+A note on networks: Dokploy services automatically join the dokploy-network so they can talk to
+each other by default.
+
 ### 1. Adding Published Images
 
 Many of our services are pushed to GitHub Container Registry (GHCR) via CI/CD. Although Dokploy can
 also build images (see below), pulling built images from GHCR is preferred because building can put
 significant load on the server.
 
-TODO
+Since you need credentials but don't want to use your actual password here, you should set up a
+[Github personal access token][pat] (PAT).
+
+1. In your Dokploy project, click on *Create Service*, select *Application* and pick a name.
+2. In the *General* tab, select Docker as provider. In the *Docker Image* field, paste your GHCR url
+   (something like `ghcr.io/pdl-lex/your-repo-name/latest`). Use `ghcr.io` as registry url. Username
+   is your GitHub username. For the password, paste your personal access token.
+   **Do NOT use your personal password.** Click Save.
+3. In the *Environment* tab, paste the contents of your .env. Make sure to name the variables
+   *exactly* as they are required by the app – since we do not have an editable compose file
+   here, we cannot rename variables (like `DATABASE_URL=${MONGODB_URI}`). Click Save.
+4. In the *Domains* tab, click *Add Domain*. For the host, use your custom subdomain like
+   `my-service.lexoterm.de` (cf. [DNS Management](#dns-management)). Configure the container port
+   according to your application (mostly 3000 or 80 – check the Dockerfile in the source repo of the
+   service). Enable HTTPS and select Let's Encrypt as certificate provider.
+5. Back in the *General* tab, click *Deploy*. Wait for the service to build and the certificate to
+   be rolled out (this may take a minute or so).
+
+If the build fails, check the build log for errors. If the build works but the app doesn't work,
+check the container logs: In Dokploy, navigate to the Docker tab, find your service, click on the
+three dots and view logs.
 
 ### 2. GitHub Repositories containing a Dockerfile
 
@@ -71,3 +94,4 @@ TODO
 [lrz-docs]: https://doku.lrz.de/faqs-zu-virtuellen-maschinen-am-lrz-10745762.html
 [so-docker]: https://stackoverflow.com/questions/59345566/move-docker-volume-to-different-partition
 [lrz-dns]: https://doku.lrz.de/dns-service-10333170.html#DNSService-Webdns-EinträgeinLRZ-NameserverüberWebinterface
+[pat]: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
