@@ -19,7 +19,8 @@ The infrastructure is distributed in [Docker][docker] containers managed via
    make sure to set `data-root` in /etc/docker/daemon.json to the correct location (something like
    /mnt/data/docker). Note that already existing images are not automatically moved to the new
    directory – if you plan to migrate them to the new location, see, e.g., [this post][so-docker] on Stackoverflow.
-3. Install [Dokploy](https://dokploy.com/).
+3. Install [Dokploy](https://dokploy.com/). In the UI, remember to move to the web server settings,
+   add a custom domain (like `manage.your-domain.de` – cf. [DNS Management](#dns-management)).
 
 ## DNS Management
 
@@ -36,10 +37,30 @@ in the left sidebar. Put the desired prefix as name (e.g., `api` for `api.lexote
 the VM's URL as CNAME alias. Confirm with ok. (It may take a few minutes for the domain to become
 active.)
 
-## Adding Services in Dokploy
+## Adding Services
+
+Before you can add services, create a new project in the Dokploy GUI if you haven't done so yet.
 
 There are different options to add services in the Dokploy UI, depending on what kind of service
-you'd like to set up. (tba)
+you'd like to set up. The preferred way seems to be adding services as applications (options 1 and
+2 below) because that gives you the most features. In general, however, the procedure is mostly the
+same: Create a new service, set up environment variables and the domain, and deploy.
+
+### 1. Adding Published Images
+
+Many of our services are pushed to GitHub Container Registry (GHCR) via CI/CD. Although Dokploy can
+also build images (see below), pulling built images from GHCR is preferred because building can put
+significant load on the server.
+
+TODO
+
+### 2. GitHub Repositories containing a Dockerfile
+
+TODO
+
+### 3. Raw Compose
+
+TODO
 
 [docker]: https://www.docker.com/
 [api]: https://github.com/pdl-lex/pdl-api
