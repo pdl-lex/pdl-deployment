@@ -74,7 +74,8 @@ Since you need credentials but don't want to use your actual password here, you 
 5. If you need volumes, you can add them in the *Advanced* tab. **Important:** If you need to add
    an existing volume, select volume mount and be sure to use the exact name of the volume – it may
    contain a prefix if it was added via Docker compose. To find your volume, ssh into the server and
-   run `docker volume ls`.
+   run `docker volume ls`. Another caveat: Do not add compose-style file permissions (`:ro`) since
+   they are interpreted as part of the path.
 6. Back in the *General* tab, click *Deploy*. Wait for the build to finish and the certificate to
    be rolled out (this may take a moment).
 
