@@ -1,1 +1,0 @@
-# LexoTerm Content Management System
