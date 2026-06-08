@@ -111,6 +111,79 @@ options available to regular applications, e.g., there is no easy way to set bas
 www-redirection, and pasting configuration into a web GUI is notoriously error-prone (no proper
 editor, no version control). Therefore, this should not be used for anything of importance.
 
+## Middlewares
+
+Traefik middlewares can be used to set up, e.g., redirecting, basic authentication, IP whitelisting
+and rate limiting.
+
+### Redirecting
+
+Set redirecting (e.g. www to non-www and vice versa) in the *Advanced* tab of application-type
+services.
+
+### Basic authentication
+
+Set in the *Advanced* tab of application-type services.
+
+### IP(-range)-based whitelisting
+
+Our CMS and the Dokploy UI are only accessible from within LRZ VPN (full tunnel). This is achieved
+via a custom middleware. In the Dokploy UI, open the *Traefik File System*, find middlewares.yml in
+the dynamic/ folder and unlock it. Add the following middleware. To find out the correct ip ranges,
+ssh into the VM, run `sudo ufw status` and look for the entries marked with `# BADW VPN-Netze`.
+
+```yml
+http:
+  middlewares:
+    # ... other middlewares ...
+    restrict-access-to-badw-vpn:
+      ipAllowList:
+        sourceRange:
+          - "..."
+          - "..."
+          - "..."
+          - "..."
+```
+
+To apply the middleware to regular services like the CMS, navigate to the *Domains* tab of the
+service and edit the domain(s) by adding `restrict-access-to-badw-vpn` to the list of middlewares.
+
+To apply it to the Dokploy interface itself, ssh into the VM, open
+/etc/dokploy/traefik/dynamic/dokploy.yml and add the middleware to the `dokploy-router-app-secure`
+section:
+
+```yml
+dokploy-router-app-secure:
+  # ... other stuff ...
+  middlewares:
+    - restrict-access-to-badw-vpn
+```
+
+After saving, the change takes effect immediately.
+
+(You may also edit the file from the Dokploy UI, but there's a risk to mess up the configuration
+and lose access to the interface.)
+
+### Rate limiting
+
+To add rate limiting, e.g., to the api, open the *Traefik File System* in the Dokploy UI, find
+middlewares.yml in the dynamic/ folder and unlock it. Add the following middleware (adjust limits
+as needed):
+
+```yml
+http:
+  middlewares:
+    # ... other middlewares ...
+    fastapi-ratelimit:
+      rateLimit:
+        average: 100
+        burst: 50
+        period: 1m
+```
+
+Navigate to the fastapi service, open the *Domains* tab and add `fastapi-ratelimit` to the list of
+middlewares.
+
 [docker]: https://www.docker.com/
 [api]: https://github.com/pdl-lex/pdl-api
 [fastapi]: https://fastapi.tiangolo.com/
